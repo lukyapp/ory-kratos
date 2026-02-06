@@ -5,11 +5,7 @@ dsn: ${DSN}
 log:
   level: info
   format: json
-
-cookies:
-  domain: ${DOMAIN_COOKIE}
-  path: /
-  same_site: Lax
+  leak_sensitive_values: false
 
 serve:
   public:
@@ -37,11 +33,15 @@ serve:
             - Content-Type
             - Set-Cookie
           allow_credentials: true
+          max_age: 600
   admin:
     host: 0.0.0.0
     port: 4434
 
+
 secrets:
+  default:
+    - ${DEFAULT_SECRET}
   cookie:
     - ${COOKIE_SECRET}
   cipher:
@@ -57,10 +57,22 @@ selfservice:
   default_browser_return_url: ${SELF_SERVICE_UI_URL}
   allowed_return_urls:
     - ${SELF_SERVICE_UI_URL}
+    - ${SELF_SERVICE_UI_URL}/*
 
   methods:
+#    totp:
+#      enabled: ${KRATOS_TOTP_ENABLED}
+#      config:
+#        issuer: ${KRATOS_TOTP_ISSUER}
+
     password:
       enabled: true
+      config:
+        min_password_length: 12
+        haveibeenpwned_enabled: true
+        ignore_network_errors: true
+        identifier_similarity_check_enabled: true
+
     oidc:
       enabled: true
       config:
@@ -77,22 +89,92 @@ selfservice:
   flows:
     login:
       ui_url: ${SELF_SERVICE_UI_URL}/auth/login
+      lifespan: 10m
+      after:
+        hooks:
+          - hook: revoke_active_sessions
+
     registration:
+      enabled: true
       ui_url: ${SELF_SERVICE_UI_URL}/auth/registration
+      lifespan: 10m
+#      after:
+#        password:
+#          hooks:
+#            - hook: session
+#            - hook: show_verification_ui
+
     settings:
       ui_url: ${SELF_SERVICE_UI_URL}/settings
+      lifespan: 10m
+      privileged_session_max_age: 5m
+      required_aal: aal1
+
     recovery:
       enabled: true
       ui_url: ${SELF_SERVICE_UI_URL}/auth/recovery
+      lifespan: 1h
+      use: code
+      notify_unknown_recipients: false
+
     verification:
       enabled: true
       ui_url: ${SELF_SERVICE_UI_URL}/auth/verification
+      lifespan: 1h
+      use: code
+      notify_unknown_recipients: false
+
     error:
       ui_url: ${SELF_SERVICE_UI_URL}/error
 
-#courier:
-#  smtp:
-#    connection_uri: ${SMTP_URI}
-
 oauth2_provider:
   url: ${OAUTH2_PROVIDER_URL}
+
+cookies:
+  domain: ${DOMAIN_COOKIE}
+  path: /
+  same_site: Lax
+  secure: "true"
+
+session:
+  lifespan: 12h
+  earliest_possible_extend: 1h
+  cookie:
+    domain: ${DOMAIN_COOKIE}
+    path: /
+    same_site: Lax
+    secure: "true"
+    persistent: false
+
+security:
+  account_enumeration:
+    mitigate: true
+
+# ----- BCrypt as default is acceptable; Argon2id is generally preferred when tuned. -----
+#hashers:
+#  algorithm: argon2
+#  argon2:
+#    memory: 256MB
+#    iterations: 2
+#    parallelism: 1
+#    salt_length: 16
+#    key_length: 32
+
+# ----- noop as default. Do not leave noop if using MFA, backup codes, etc. -----
+ciphers:
+  algorithm: xchacha20-poly1305
+
+#courier:
+#  delivery_strategy: smtp
+#  message_retries: 10
+#  smtp:
+#    connection_uri: ${KRATOS_SMTP_CONNECTION_URI}
+#    from_address: ${KRATOS_SMTP_FROM_ADDRESS}
+#    from_name: ${KRATOS_SMTP_FROM_NAME}
+
+#clients:
+#  http:
+#    disallow_private_ip_ranges: true
+#    private_ip_exception_urls: []
+#  web_hook:
+#    header_allowlist: ["X-Request-Id","X-Correlation-Id"]

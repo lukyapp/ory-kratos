@@ -32,6 +32,7 @@ services:
       - DSN=postgres://kratos:password@kratos-postgres:5432/kratos?sslmode=disable
       - KRATOS_PUBLIC_URL=http://localhost:4433
       - SELF_SERVICE_UI_URL=http://localhost:3000
+      - DEFAULT_SECRET=131c95bfb82eef1d206c606835c657c8
       - COOKIE_SECRET=131c95bfb82eef1d206c606835c657c8
       - CIPHER_SECRET=966371e76754558d9692262589f85bc0
       - PORT=4433

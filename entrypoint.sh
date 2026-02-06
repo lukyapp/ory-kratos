@@ -4,6 +4,7 @@ set -eu
 : "${DSN:?Missing DSN}"
 : "${KRATOS_PUBLIC_URL:?Missing KRATOS_PUBLIC_URL}"
 : "${SELF_SERVICE_UI_URL:?Missing SELF_SERVICE_UI_URL}"
+: "${DEFAULT_SECRET:?Missing DEFAULT_SECRET}"
 : "${COOKIE_SECRET:?Missing COOKIE_SECRET}"
 : "${CIPHER_SECRET:?Missing CIPHER_SECRET}"
 : "${PORT:?Missing PORT}"
