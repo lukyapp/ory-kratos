@@ -3,6 +3,12 @@
 local claims   = std.extVar('claims');   // claims OIDC de Google
 local subject  = std.extVar('subject');  // sub (id externe)
 local provider = std.extVar('provider'); // 'google', etc.
+local resolved_name =
+  if std.objectHas(claims, 'name') then claims.name
+  else if std.objectHas(claims, 'given_name') && std.objectHas(claims, 'family_name')
+  then claims.given_name + ' ' + claims.family_name
+  else if std.objectHas(claims, 'given_name') then claims.given_name
+  else null;
 
 {
   identity: {
@@ -12,10 +18,8 @@ local provider = std.extVar('provider'); // 'google', etc.
     traits: {
       // /!\ ATTENTION /!\ : les clés ci dessousdoivent exister dans le schéma JSON d’identité Kratos
       email: if std.objectHas(claims, 'email') then claims.email else error 'Missing email claim from OIDC provider',
-
-//      name:        (claims.name)       + "",  // cast en string par sécurité
 //      avatar_url:  (claims.picture)    + "",
-    },
+    } + if resolved_name != null then { name: resolved_name } else {},
   },
 
   // Optionnel : on peut aussi renvoyer metadata_public / metadata_admin

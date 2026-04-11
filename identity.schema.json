@@ -24,6 +24,11 @@
               "via": "email"
             }
           }
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "title": "Name"
         }
       },
       "required": [
