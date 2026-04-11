@@ -29,6 +29,11 @@
           "type": "string",
           "minLength": 1,
           "title": "Name"
+        },
+        "picture": {
+          "type": "string",
+          "format": "uri",
+          "title": "Profile Image"
         }
       },
       "required": [

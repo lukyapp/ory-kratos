@@ -9,6 +9,9 @@ local resolved_name =
   then claims.given_name + ' ' + claims.family_name
   else if std.objectHas(claims, 'given_name') then claims.given_name
   else null;
+local resolved_picture =
+  if std.objectHas(claims, 'picture') then claims.picture
+  else null;
 
 {
   identity: {
@@ -18,8 +21,9 @@ local resolved_name =
     traits: {
       // /!\ ATTENTION /!\ : les clés ci dessousdoivent exister dans le schéma JSON d’identité Kratos
       email: if std.objectHas(claims, 'email') then claims.email else error 'Missing email claim from OIDC provider',
-//      avatar_url:  (claims.picture)    + "",
-    } + if resolved_name != null then { name: resolved_name } else {},
+    }
+    + if resolved_name != null then { name: resolved_name } else {}
+    + if resolved_picture != null then { picture: resolved_picture } else {},
   },
 
   // Optionnel : on peut aussi renvoyer metadata_public / metadata_admin
