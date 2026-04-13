@@ -51,9 +51,11 @@ http://localhost:4433/self-service/login/browser
 The `.env` file contains all necessary configuration. Key variables:
 
 - `COOKIE_SECRET` & `CIPHER_SECRET`: Security secrets (auto-generated)
+- `PAGINATION_SECRET`: Secret used to protect pagination cursors
 - `DSN`: Database connection string
 - `KRATOS_PUBLIC_URL`: Public URL for Kratos
 - `SELF_SERVICE_UI_URL`: URL for your frontend application
+- `DOMAIN_COOKIE`: Cookie scoping and SameSite behavior
 
 ## Google OAuth Setup (Optional)
 

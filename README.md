@@ -4,7 +4,7 @@ A containerized deployment setup for **Ory Kratos**, providing secure user authe
 
 Instead of building authentication flows from scratch, this project helps you run Kratos quickly with Docker and PostgreSQL, leveraging all the built-in capabilities maintained by the Ory team.
 
-👉 Official documentation: https://www.ory.sh/kratos/docs/
+👉 Official documentation: https://www.ory.com/docs/kratos
 ## 🚀 Features
 
 This setup allows you to easily deploy and configure **Ory Kratos**, benefiting from its core features, including:
@@ -31,7 +31,7 @@ This setup allows you to easily deploy and configure **Ory Kratos**, benefiting 
   Easily customizable setup through variables and config templates
 
 For full Kratos capabilities, refer to the official documentation:  
-👉 https://www.ory.sh/kratos/docs/
+👉 https://www.ory.com/docs/kratos
 
 ## 🛠 Tech Stack
 
@@ -78,7 +78,9 @@ Configuration is managed through environment variables in the `docker-compose.ym
 - `SELF_SERVICE_UI_URL`: URL of the self-service UI
 - `COOKIE_SECRET`: Secret for cookie encryption
 - `CIPHER_SECRET`: Secret for data encryption
+- `PAGINATION_SECRET`: Secret used to protect pagination tokens
 - `OIDC_PROVIDERS_*`: OAuth2.0 provider configurations
+- `DOMAIN_COOKIE`: Cookie domain for Kratos browser cookies
 
 ## 🏗 Project Structure
 

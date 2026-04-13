@@ -35,6 +35,7 @@ services:
       - DEFAULT_SECRET=131c95bfb82eef1d206c606835c657c8
       - COOKIE_SECRET=131c95bfb82eef1d206c606835c657c8
       - CIPHER_SECRET=966371e76754558d9692262589f85bc0
+      - PAGINATION_SECRET=1966371e76754558d9692262589f85bc0
       - OIDC_PROVIDERS_GOOGLE_CLIENT_ID=XXX
       - OIDC_PROVIDERS_GOOGLE_CLIENT_SECRET=XXX
       - DOMAIN_COOKIE=localhost
@@ -42,6 +43,7 @@ services:
       - LOG_LEVEL=debug
       - KRATOS_EXTRA_ARGS=--dev
       - RUN_MIGRATIONS=true
+      - CLIENTS_HTTP_PRIVATE_IP_EXCEPTION_URLS=["http://localhost:4445"]
     depends_on:
       kratos-postgres:
         condition: service_healthy

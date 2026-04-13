@@ -46,6 +46,8 @@ secrets:
     - ${COOKIE_SECRET}
   cipher:
     - ${CIPHER_SECRET}
+  pagination:
+    - ${PAGINATION_SECRET}
 
 identity:
   default_schema_id: default
@@ -172,9 +174,10 @@ ciphers:
 #    from_address: ${KRATOS_SMTP_FROM_ADDRESS}
 #    from_name: ${KRATOS_SMTP_FROM_NAME}
 
-#clients:
-#  http:
-#    disallow_private_ip_ranges: true
-#    private_ip_exception_urls: []
+clients:
+  http:
+    disallow_private_ip_ranges: true
+    private_ip_exception_urls:
+      - ${OAUTH2_PROVIDER_URL}
 #  web_hook:
 #    header_allowlist: ["X-Request-Id","X-Correlation-Id"]
