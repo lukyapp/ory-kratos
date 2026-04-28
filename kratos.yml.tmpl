@@ -139,14 +139,14 @@ cookies:
   secure: "true"
 
 session:
-  lifespan: 12h
-  earliest_possible_extend: 1h
+  lifespan: 720h
+  earliest_possible_extend: 24h
   cookie:
     domain: ${DOMAIN_COOKIE}
     path: /
     same_site: Lax
     secure: "true"
-    persistent: false
+    persistent: true
 
 security:
   account_enumeration:
