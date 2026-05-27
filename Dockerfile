@@ -1,5 +1,5 @@
 # Stage 1: take the kratos binary from the official image
-FROM oryd/kratos:v25.4.0 AS kratos
+FROM oryd/kratos:v26.2.0 AS kratos
 
 # Stage 2: run on alpine so we can install envsubst (gettext)
 FROM alpine:3.20

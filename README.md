@@ -35,7 +35,7 @@ For full Kratos capabilities, refer to the official documentation:
 
 ## 🛠 Tech Stack
 
-- **Core**: [Ory Kratos](https://www.ory.sh/kratos/) v25.4.0
+- **Core**: [Ory Kratos](https://www.ory.sh/kratos/) v26.2.0
 - **Database**: PostgreSQL 15
 - **Docker** - Containerization
 - **Docker Compose** - Local development and testing
