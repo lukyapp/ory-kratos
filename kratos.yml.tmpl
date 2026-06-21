@@ -100,11 +100,14 @@ selfservice:
       enabled: true
       ui_url: ${SELF_SERVICE_UI_URL}/auth/registration
       lifespan: 10m
-#      after:
-#        password:
-#          hooks:
-#            - hook: session
+      after:
+        password:
+          hooks:
+            - hook: session
 #            - hook: show_verification_ui
+        oidc:
+          hooks:
+            - hook: session
 
     settings:
       ui_url: ${SELF_SERVICE_UI_URL}/settings
