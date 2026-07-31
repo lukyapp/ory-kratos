@@ -12,6 +12,9 @@ set -eu
 : "${OIDC_PROVIDERS_GOOGLE_CLIENT_SECRET:?Missing OIDC_PROVIDERS_GOOGLE_CLIENT_SECRET}"
 : "${DOMAIN_COOKIE:?Missing DOMAIN_COOKIE}"
 : "${OAUTH2_PROVIDER_URL:?Missing OAUTH2_PROVIDER_URL}"
+: "${KRATOS_SMTP_CONNECTION_URI:?Missing KRATOS_SMTP_CONNECTION_URI}"
+: "${KRATOS_SMTP_FROM_ADDRESS:?Missing KRATOS_SMTP_FROM_ADDRESS}"
+: "${KRATOS_SMTP_FROM_NAME:?Missing KRATOS_SMTP_FROM_NAME}"
 
 envsubst < /etc/kratos/kratos.yml.tmpl > /etc/kratos/kratos.yml
 
@@ -19,4 +22,4 @@ if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
   kratos migrate sql "$DSN" -c /etc/kratos/kratos.yml -e --yes
 fi
 
-exec kratos -c /etc/kratos/kratos.yml serve ${KRATOS_EXTRA_ARGS:-}
+exec kratos -c /etc/kratos/kratos.yml serve --watch-courier ${KRATOS_EXTRA_ARGS:-}

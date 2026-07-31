@@ -81,6 +81,34 @@ Configuration is managed through environment variables in the `docker-compose.ym
 - `PAGINATION_SECRET`: Secret used to protect pagination tokens
 - `OIDC_PROVIDERS_*`: OAuth2.0 provider configurations
 - `DOMAIN_COOKIE`: Cookie domain for Kratos browser cookies
+- `KRATOS_SMTP_*`: SMTP courier settings for verification and recovery emails
+
+### SMTP courier
+
+Kratos sends verification and recovery emails through the standard SMTP
+courier. The application does not depend on a provider-specific adapter; switch
+providers by changing the SMTP URI and sender variables.
+
+Local development uses Mailpit:
+
+- SMTP endpoint from containers: `mailpit:1025`
+- Web inbox: http://localhost:8025
+- Connection URI: `smtp://mailpit:1025/?disable_starttls=true`
+
+Production secrets should be configured in the runtime environment. For example,
+with Resend over SMTP:
+
+```env
+KRATOS_SMTP_CONNECTION_URI=smtp://resend:RE_RESEND_API_KEY@smtp.resend.com:587/
+KRATOS_SMTP_FROM_ADDRESS=no-reply@example.com
+KRATOS_SMTP_FROM_NAME=Example App
+```
+
+Use a dedicated Resend API key for Kratos and a verified sender domain. Port
+`587` uses STARTTLS; if a provider requires implicit TLS, use `smtps://` with
+port `465`. The entrypoint always runs Kratos with `--watch-courier` so queued
+verification emails are actually delivered. Use `KRATOS_EXTRA_ARGS` only for
+temporary runtime tests.
 
 ## 🏗 Project Structure
 

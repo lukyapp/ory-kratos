@@ -93,8 +93,16 @@ selfservice:
       ui_url: ${SELF_SERVICE_UI_URL}/auth/login
       lifespan: 10m
       after:
-        hooks:
-          - hook: revoke_active_sessions
+        password:
+          hooks:
+            - hook: require_verified_address
+            - hook: revoke_active_sessions
+        oidc:
+          hooks:
+            - hook: revoke_active_sessions
+        webauthn:
+          hooks:
+            - hook: revoke_active_sessions
 
     registration:
       enabled: true
@@ -103,10 +111,15 @@ selfservice:
       after:
         password:
           hooks:
+            - hook: show_verification_ui
             - hook: session
-#            - hook: show_verification_ui
         oidc:
           hooks:
+            - hook: show_verification_ui
+            - hook: session
+        webauthn:
+          hooks:
+            - hook: show_verification_ui
             - hook: session
 
     settings:
@@ -114,6 +127,10 @@ selfservice:
       lifespan: 10m
       privileged_session_max_age: 5m
       required_aal: aal1
+      after:
+        profile:
+          hooks:
+            - hook: show_verification_ui
 
     recovery:
       enabled: true
@@ -169,13 +186,13 @@ security:
 ciphers:
   algorithm: xchacha20-poly1305
 
-#courier:
-#  delivery_strategy: smtp
-#  message_retries: 10
-#  smtp:
-#    connection_uri: ${KRATOS_SMTP_CONNECTION_URI}
-#    from_address: ${KRATOS_SMTP_FROM_ADDRESS}
-#    from_name: ${KRATOS_SMTP_FROM_NAME}
+courier:
+  delivery_strategy: smtp
+  message_retries: 10
+  smtp:
+    connection_uri: ${KRATOS_SMTP_CONNECTION_URI}
+    from_address: ${KRATOS_SMTP_FROM_ADDRESS}
+    from_name: ${KRATOS_SMTP_FROM_NAME}
 
 #clients:
 #  http:

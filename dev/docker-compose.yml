@@ -20,6 +20,14 @@ services:
       timeout: 5s
       retries: 5
 
+  mailpit:
+    image: axllent/mailpit:v1.21
+    container_name: kratos-mailpit
+    networks:
+      - ory-net
+    ports:
+      - "8025:8025"
+
   kratos:
     build: ../
     container_name: kratos
@@ -40,6 +48,9 @@ services:
       - OIDC_PROVIDERS_GOOGLE_CLIENT_SECRET=XXX
       - DOMAIN_COOKIE=localhost
       - OAUTH2_PROVIDER_URL=http://hydra:4445
+      - KRATOS_SMTP_CONNECTION_URI=smtp://mailpit:1025/?disable_starttls=true
+      - KRATOS_SMTP_FROM_ADDRESS=verification@localhost
+      - KRATOS_SMTP_FROM_NAME=Verification Code
       - LOG_LEVEL=debug
       - KRATOS_EXTRA_ARGS=--dev
       - RUN_MIGRATIONS=true
@@ -47,6 +58,8 @@ services:
     depends_on:
       kratos-postgres:
         condition: service_healthy
+      mailpit:
+        condition: service_started
     restart: unless-stopped
 
 volumes:
