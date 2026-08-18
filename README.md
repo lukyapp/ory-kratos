@@ -89,6 +89,46 @@ Kratos sends verification and recovery emails through the standard SMTP
 courier. The application does not depend on a provider-specific adapter; switch
 providers by changing the SMTP URI and sender variables.
 
+Verification-code emails use Kratos courier template overrides from:
+
+```txt
+/etc/kratos/templates/verification_code/valid/
+```
+
+The image copies the local `templates/` directory to `/etc/kratos/templates`,
+and `kratos.yml.tmpl` references these files under
+`courier.templates.verification_code.valid.email`. This keeps the override
+scoped to the verification-code email instead of replacing every courier
+template.
+
+Files currently customized:
+
+```txt
+templates/verification_code/valid/email.subject.gotmpl
+templates/verification_code/valid/email.body.gotmpl
+templates/verification_code/valid/email.body.plaintext.gotmpl
+```
+
+Keep the plaintext template in sync with the HTML body. Validate locally with
+Mailpit before any real Resend or Gmail test.
+
+For `verification_code.valid` email templates, Kratos provides the template
+model fields below:
+
+```gotemplate
+{{ .To }}
+{{ .VerificationURL }}
+{{ .VerificationCode }}
+{{ .Identity }}
+{{ .RequestURL }}
+{{ .TransientPayload }}
+```
+
+The templates avoid hardcoded production hosts and only render values from the
+Kratos model. Kratos does not expose a dedicated display-name field for the
+current environment; use `.RequestURL` or `.VerificationURL` only when a full
+URL is useful.
+
 Local development uses Mailpit:
 
 - SMTP endpoint from containers: `mailpit:1025`

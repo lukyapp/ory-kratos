@@ -11,6 +11,7 @@ COPY --from=kratos /usr/bin/kratos /usr/bin/kratos
 
 COPY kratos.yml.tmpl /etc/kratos/kratos.yml.tmpl
 COPY identity.schema.json /etc/kratos/identity.schema.json
+COPY templates /etc/kratos/templates
 COPY entrypoint.sh /entrypoint.sh
 RUN mkdir -p /etc/kratos/mappers
 COPY mappers/google.jsonnet /etc/kratos/mappers/google.jsonnet

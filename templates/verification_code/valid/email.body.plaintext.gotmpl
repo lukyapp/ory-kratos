@@ -1,0 +1,16 @@
+Verifiez votre compte
+{{ $recipient := .To }}
+{{ $verificationCode := .VerificationCode }}
+{{ $verificationURL := .VerificationURL }}
+
+Votre code de verification pour {{ $recipient }} :
+
+{{ $verificationCode }}
+
+Ce code est temporaire. Vous pouvez aussi ouvrir ce lien pour verifier votre compte :
+
+{{ $verificationURL }}
+
+Si vous n'etes pas a l'origine de cette demande, ignorez cet email. Votre compte restera protege.
+
+Message automatique lie a cette verification de compte.

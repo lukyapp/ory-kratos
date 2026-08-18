@@ -193,6 +193,14 @@ courier:
     connection_uri: ${KRATOS_SMTP_CONNECTION_URI}
     from_address: ${KRATOS_SMTP_FROM_ADDRESS}
     from_name: ${KRATOS_SMTP_FROM_NAME}
+  templates:
+    verification_code:
+      valid:
+        email:
+          subject: file:///etc/kratos/templates/verification_code/valid/email.subject.gotmpl
+          body:
+            html: file:///etc/kratos/templates/verification_code/valid/email.body.gotmpl
+            plaintext: file:///etc/kratos/templates/verification_code/valid/email.body.plaintext.gotmpl
 
 #clients:
 #  http:
